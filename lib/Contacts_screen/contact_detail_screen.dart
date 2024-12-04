@@ -43,9 +43,9 @@ class ContactDetailsPage extends StatelessWidget {
                 label: 'Email',
                 value: contact.email ?? 'Не вказано',
               ),
-              // Додано поле для соціальних мереж
+
               _buildDetailTile(
-                icon: Icons.social_distance, // Використовуємо іконку для соціальних мереж
+                icon: Icons.social_distance,
                 label: 'Соціальні мережі',
                 value: contact.socialMedia ?? 'Не вказано',
               ),

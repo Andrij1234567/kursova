@@ -1,11 +1,11 @@
 class Contact {
-  int? id; // Унікальний ідентифікатор контакту
-  int userId; // Ідентифікатор користувача, якому належить контакт
-  String firstName; // Ім'я контакту
-  String lastName; // Прізвище контакту
-  String phoneNumber; // Номер телефону
-  String email; // Електронна пошта
-  String socialMedia; // Соціальні мережі
+  int? id;
+  int userId;
+  String firstName;
+  String lastName;
+  String phoneNumber;
+  String email;
+  String socialMedia;
 
   Contact({
     this.id,
@@ -17,7 +17,6 @@ class Contact {
     required this.socialMedia,
   });
 
-  // Перетворення об'єкта Contact в Map (для SQLite)
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -30,7 +29,6 @@ class Contact {
     };
   }
 
-  // Відновлення об'єкта Contact з Map (з SQLite)
   factory Contact.fromMap(Map<String, dynamic> map) {
     return Contact(
       id: map['id'],

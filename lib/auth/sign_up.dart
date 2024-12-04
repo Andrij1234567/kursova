@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kursova3/SQLlite/db_helper.dart';
-import 'package:kursova3/auth/delete_user.dart';
-
+import 'package:kursova3/models/user_model.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -14,26 +13,35 @@ class _SignUpPageState extends State<SignUpPage> {
   final _passwordController = TextEditingController();
   final _dbHelper = DatabaseHelper();
 
+
   void _signUp() async {
     if (_formKey.currentState!.validate()) {
       final username = _usernameController.text.trim();
       final password = _passwordController.text.trim();
 
-      // Додавання нового користувача в базу
-      await _dbHelper.insertUser(username, password);
+      final existingUser = await _dbHelper.getUserByUsername(username);
+      if (existingUser != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Користувач із таким ім\'ям вже існує')),
+        );
+        return;
+      }
+
+      final newUser = User(username: username, password: password);
+      await _dbHelper.insertUser(newUser);
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Реєстрація успішна!')),
       );
 
-      Navigator.pop(context); // Повернення на сторінку логіну
+      Navigator.pop(context);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Sign Up')),
+      appBar: AppBar(title: Text('Реєстрація')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -41,14 +49,11 @@ class _SignUpPageState extends State<SignUpPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Ім'я користувача
+
               TextFormField(
                 controller: _usernameController,
                 decoration: InputDecoration(
                   labelText: 'Ім\'я користувача',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                  ),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -60,14 +65,11 @@ class _SignUpPageState extends State<SignUpPage> {
                 },
               ),
               SizedBox(height: 15),
-              // Пароль
+
               TextFormField(
                 controller: _passwordController,
                 decoration: InputDecoration(
                   labelText: 'Пароль',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                  ),
                 ),
                 obscureText: true,
                 validator: (value) {
@@ -80,22 +82,13 @@ class _SignUpPageState extends State<SignUpPage> {
                 },
               ),
               SizedBox(height: 20),
-              // Кнопка реєстрації
+
               ElevatedButton(
                 onPressed: _signUp,
                 child: Text('Зареєструватися'),
               ),
               SizedBox(height: 20),
-              // Кнопка для переходу на екран видалення акаунта
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => DeleteAccountScreen()),
-                  );
-                },
-                child: Text('Видалити акаунт'),
-              ),
+
             ],
           ),
         ),

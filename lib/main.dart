@@ -13,21 +13,20 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Contact Book',
       theme: ThemeData(
-        // Основна кольорова схема
         colorScheme: ColorScheme.light(
-          primary: Colors.lightBlue, // Головний колір
-          secondary: Colors.blueAccent, // Додатковий колір
-          background: Colors.white, // Колір фону
-          surface: Colors.lightBlue.shade50, // Колір для поверхонь (карток, кнопок)
-          onPrimary: Colors.white, // Колір тексту на головному кольорі
-          onSecondary: Colors.white, // Колір тексту на додатковому кольорі
-          onBackground: Colors.black, // Колір тексту на фоні
-          onSurface: Colors.black, // Колір тексту на поверхнях
+          primary: Colors.lightBlue,
+          secondary: Colors.blueAccent,
+          background: Colors.white,
+          surface: Colors.lightBlue.shade50,
+          onPrimary: Colors.white,
+          onSecondary: Colors.white,
+          onBackground: Colors.black,
+          onSurface: Colors.black,
         ),
-        scaffoldBackgroundColor: Colors.lightBlue.shade50, // Фон для екранів
+        scaffoldBackgroundColor: Colors.lightBlue.shade50,
         appBarTheme: AppBarTheme(
-          backgroundColor: Colors.lightBlue, // Колір AppBar
-          foregroundColor: Colors.white, // Колір тексту/ікон у AppBar
+          backgroundColor: Colors.lightBlue,
+          foregroundColor: Colors.white,
           elevation: 0,
           titleTextStyle: TextStyle(
             fontSize: 20,
@@ -37,21 +36,21 @@ class MyApp extends StatelessWidget {
         ),
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
-            foregroundColor: Colors.blueAccent, // Колір текстових кнопок
+            foregroundColor: Colors.blueAccent,
           ),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.blueAccent, // Колір кнопок
-            foregroundColor: Colors.white, // Колір тексту на кнопках
+            backgroundColor: Colors.blueAccent,
+            foregroundColor: Colors.white,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20), // Закруглені краї кнопок
+              borderRadius: BorderRadius.circular(20),
             ),
           ),
         ),
         inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(25.0), // Закруглені краї полів
+            borderRadius: BorderRadius.circular(25.0),
             borderSide: BorderSide(color: Colors.blueAccent),
           ),
           focusedBorder: OutlineInputBorder(
@@ -62,8 +61,8 @@ class MyApp extends StatelessWidget {
           iconColor: Colors.blueAccent,
         ),
         floatingActionButtonTheme: FloatingActionButtonThemeData(
-          backgroundColor: Colors.blueAccent, // Колір FAB
-          foregroundColor: Colors.white, // Колір іконок на FAB
+          backgroundColor: Colors.blueAccent,
+          foregroundColor: Colors.white,
         ),
       ),
       home: LoginPage(),

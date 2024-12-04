@@ -1,3 +1,5 @@
+import 'package:kursova3/models/contact_model.dart';
+import 'package:kursova3/models/user_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -38,26 +40,19 @@ class DatabaseHelper {
             lastName TEXT NOT NULL,
             phoneNumber TEXT NOT NULL,
             email TEXT NOT NULL,
-            socialMedia TEXT NOT NULL,
+            socialMedia,
             FOREIGN KEY (userId) REFERENCES users (id) ON DELETE CASCADE
           )
         ''');
       },
-      onUpgrade: (db, oldVersion, newVersion) async {
-        if (oldVersion < 2) {
-          await db.execute('ALTER TABLE contacts ADD COLUMN socialMedia TEXT NOT NULL DEFAULT ""');
-        }
-      },
+
+
     );
   }
 
-  // --- Методи для таблиці користувачів ---
-  Future<int> insertUser(String username, String password) async {
+  Future<int> insertUser(User user) async {
     final db = await database;
-    return await db.insert('users', {
-      'username': username,
-      'password': password,
-    });
+    return await db.insert('users', user.toMap());
   }
 
   Future<Map<String, dynamic>?> getUser(String username, String password) async {
@@ -70,54 +65,29 @@ class DatabaseHelper {
     return result.isNotEmpty ? result.first : null;
   }
 
-  Future<int> insertContact({
-    required int userId,
-    required String firstName,
-    required String lastName,
-    required String phoneNumber,
-    required String email,
-    required String socialMedia,
-  }) async {
+  Future<int> insertContact(Contact contact) async {
     final db = await database;
-    return await db.insert('contacts', {
-      'userId': userId,
-      'firstName': firstName,
-      'lastName': lastName,
-      'phoneNumber': phoneNumber,
-      'email': email,
-      'socialMedia': socialMedia,
-    });
+    return await db.insert('contacts', contact.toMap());
   }
 
-  Future<List<Map<String, dynamic>>> getContactsByUser(int userId) async {
+
+  Future<List<Contact>> getContactsByUser(int userId) async {
     final db = await database;
-    return await db.query(
+    final result = await db.query(
       'contacts',
       where: 'userId = ?',
       whereArgs: [userId],
     );
+    return result.map((map) => Contact.fromMap(map)).toList();
   }
 
-  Future<int> updateContact({
-    required int id,
-    required String firstName,
-    required String lastName,
-    required String phoneNumber,
-    required String email,
-    required String socialMedia,
-  }) async {
+  Future<int> updateContact(Contact contact) async {
     final db = await database;
     return await db.update(
       'contacts',
-      {
-        'firstName': firstName,
-        'lastName': lastName,
-        'phoneNumber': phoneNumber,
-        'email': email,
-        'socialMedia': socialMedia,
-      },
+      contact.toMap(),
       where: 'id = ?',
-      whereArgs: [id],
+      whereArgs: [contact.id],
     );
   }
 
@@ -130,17 +100,25 @@ class DatabaseHelper {
     );
   }
 
-
-  // --- Метод для видалення користувача ---
-  Future<int> deleteAccount(String username, String password) async {
+  Future<int> deleteAccountById(int userId) async {
     final db = await database;
-
     return await db.delete(
       'users',
-      where: 'username = ? AND password = ?',
-      whereArgs: [username, password],
+      where: 'id = ?',
+      whereArgs: [userId],
     );
   }
+
+  Future<Map<String, dynamic>?> getUserByUsername(String username) async {
+    final db = await database;
+    final result = await db.query(
+      'users',
+      where: 'username = ?',
+      whereArgs: [username],
+    );
+    return result.isNotEmpty ? result.first : null;
+  }
+
 
 
 }

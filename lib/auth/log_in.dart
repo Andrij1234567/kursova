@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kursova3/Contacts_screen/contact_page.dart';
 import 'package:kursova3/SQLlite/db_helper.dart';
-import 'package:kursova3/auth/delete_user.dart';
 import 'package:kursova3/auth/sign_up.dart';
 
 
@@ -24,7 +23,6 @@ class _LoginPageState extends State<LoginPage> {
       final user = await _dbHelper.getUser(username, password);
 
       if (user != null) {
-        // Якщо користувач знайдений
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -32,7 +30,6 @@ class _LoginPageState extends State<LoginPage> {
           ),
         );
       } else {
-        // Якщо користувача не знайдено
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Невірне ім\'я користувача або пароль')),
         );
@@ -43,7 +40,8 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Login')),
+      appBar: AppBar(title: Text('Вхід'),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -55,8 +53,6 @@ class _LoginPageState extends State<LoginPage> {
                 controller: _usernameController,
                 decoration: InputDecoration(
                   labelText: 'Ім\'я користувача',
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(25.0))),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -72,8 +68,6 @@ class _LoginPageState extends State<LoginPage> {
                 controller: _passwordController,
                 decoration: InputDecoration(
                   labelText: 'Пароль',
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(25.0))),
                 ),
                 obscureText: true,
                 validator: (value) {
@@ -98,15 +92,6 @@ class _LoginPageState extends State<LoginPage> {
                   );
                 },
                 child: Text('Зареєструватися'),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => DeleteAccountScreen()),
-                  );
-                },
-                child: Text('Видалити обліковий запис'),
               ),
             ],
           ),

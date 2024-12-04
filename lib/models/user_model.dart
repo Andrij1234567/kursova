@@ -1,7 +1,7 @@
 class User {
-  int? id; // Унікальний ідентифікатор користувача
-  String username; // Ім'я користувача
-  String password; // Пароль користувача
+  int? id;
+  String username;
+  String password;
 
   User({
     this.id,
@@ -9,7 +9,7 @@ class User {
     required this.password,
   });
 
-  // Перетворення об'єкта User в Map (для SQLite)
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -18,7 +18,7 @@ class User {
     };
   }
 
-  // Відновлення об'єкта User з Map (з SQLite)
+
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
       id: map['id'],
